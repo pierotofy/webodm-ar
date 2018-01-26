@@ -2,7 +2,7 @@
   "expo": {
     "name": "WebODM AR",
     "slug": "webodm-ar",
-    "sdkVersion": "22.0.0",
+    "sdkVersion": "25.0.0",
     "privacy": "unlisted"
   }
 }
