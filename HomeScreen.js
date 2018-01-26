@@ -7,60 +7,43 @@ import {
   StyleSheet
 } from 'react-native';
 
-import "@expo/vector-icons";
-import { Button } from 'react-native-elements';
+import { Button, Icon } from 'react-native-elements';
 
 class HomeScreen extends React.Component {
-  static navigationOptions = {
-    title: 'WebODM AR'
-  };
-
-  constructor() {
-    super();
-    this.state = {
-      isReady: false
-    };
-  }
-
-  componentWillMount(){
-    this.loadFonts();
-  }
-
-  async loadFonts() {
-    await Expo.Font.loadAsync({
-      'Material Design Icons': require("@expo/vector-icons/node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf")
-    });
-    this.setState({ isReady: true });
-  }
+  static navigationOptions = ({ navigation, screenProps }) => ({
+    title: '',
+    headerRight: <Icon 
+            name="information"
+            type="material-community"
+            size={32}
+            color="#2C3E50"
+            iconStyle={{paddingRight: 20}}
+            onPress={() => navigation.navigate('Instructions') }
+          />
+  });
 
   render() {
-    if (!this.state.isReady) {
-      return <Expo.AppLoading />;
-    }
-
     return (
       <View style={{alignItems: 'center', 
                     flex: 1,
                     backgroundColor: 'white'}}>
 
+        <Text style={{
+            fontSize: 28,
+            fontWeight: 'bold',
+            marginTop: 20
+          }}
+        >WebODM AR</Text>
+        
         <Image
           source={require('./assets/images/logo.png')}
           fadeDuration={0}
           style={{width: 140, height: 140, margin: 20}}
         />
-        <Text style={{
-            fontSize: 20,
-            padding: 20,
-            width: '96%'
-          }}
-        >View textured models processed with WebODM in augmented reality on ARKit devices. To get started:</Text>
         
-        <Text style={styles.instruction}>1. Make sure WebODM is accessible from the internet or that your device is connected to the same network as the computer running WebODM.</Text>
-        <Text style={styles.instruction}>2. Make sure the task you want to display is shared.</Text>
-        <Text style={styles.instruction}>3. Press the "QR" button from WebODM's share panel.</Text>
-      
         <Button
-          style={{marginTop: 40}}
+          style={{marginTop: 20}}
+          backgroundColor="#2C3E50"
           rounded={true}
           large={true}
           icon={{name: 'qrcode-scan', type: "material-community"}}
