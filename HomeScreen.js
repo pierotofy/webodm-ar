@@ -3,8 +3,9 @@ import * as Expo from "expo";
 import {
   Text,
   View,
+  ScrollView,
   Image,
-  StyleSheet
+  TextInput
 } from 'react-native';
 
 import { Button, Icon } from 'react-native-elements';
@@ -22,12 +23,19 @@ class HomeScreen extends React.Component {
           />
   });
 
+  constructor(){
+    super();
+
+    this.state = {
+      taskUrl: ""
+    };
+  }
+
   render() {
     return (
-      <View style={{alignItems: 'center', 
-                    flex: 1,
-                    backgroundColor: 'white'}}>
-
+      <View style={{flex: 1, backgroundColor: "white"}}>
+        <ScrollView contentContainerStyle={{alignItems: 'center'}}>
+       
         <Text style={{
             fontSize: 28,
             fontWeight: 'bold',
@@ -38,7 +46,7 @@ class HomeScreen extends React.Component {
         <Image
           source={require('./assets/images/logo.png')}
           fadeDuration={0}
-          style={{width: 140, height: 140, margin: 20}}
+          style={{width: 140, height: 140, margin: 0}}
         />
         
         <Button
@@ -48,25 +56,65 @@ class HomeScreen extends React.Component {
           large={true}
           icon={{name: 'qrcode-scan', type: "material-community"}}
           title='Scan QR Code' 
-          onPress={this.handlePress}/>
+          onPress={this.handleScanQRCode}/>
+
+        <Text style={{
+            fontSize: 20,
+            fontWeight: 'bold',
+            marginTop: 20,
+            marginBottom: 20
+          }}
+        >OR</Text>
+
+        <TextInput
+          clearButtonMode="always"
+          spellCheck={false}
+          value={this.state.taskUrl}
+          onChangeText={this.handleTaskUrlChange}
+          onSubmitEditing={this.handleTypeURL}
+          style={{padding: 8, 
+                  alignSelf: "stretch",
+                  marginLeft: 40,
+                  marginRight: 40, 
+                  borderWidth: 1, 
+                  borderColor: "#acacac"}}
+        />
+
+        <Text style={{
+            fontSize: 14,
+            marginBottom: 20,
+            marginTop: 8,
+            color: "#acacac"
+          }}
+        >https://my.webodm.com/public/task/uuid/
+        </Text>
+
+        <Button
+          disabled={this.state.taskUrl === ""}
+          style={{marginTop: 20}}
+          backgroundColor="#2C3E50"
+          rounded={true}
+          large={true}
+          icon={{name: 'keyboard', type: "material-community"}}
+          title='Manually Type URL' 
+          onPress={this.handleTypeURL}/>
+        </ScrollView>
       </View>
     )
   }
 
-  handlePress = () => {
-    this.props.navigation.navigate('Home');
+  handleTaskUrlChange = (taskUrl) => {
+    this.setState({taskUrl});
+  }
+
+  handleScanQRCode = () => {
+    this.props.navigation.navigate('ScanQR');
+  }
+
+  handleTypeURL = () => {
+    const { taskUrl } = this.state;
+    this.props.navigation.navigate('ViewModel', {taskUrl});
   }
 }
-
-const styles = StyleSheet.create({
-  instruction: {
-    fontSize: 18,
-    paddingTop: 4,
-    paddingBottom: 4,
-    paddingLeft: 20,
-    paddingRight: 20,
-    width: '96%'
-  }
-});
 
 export default HomeScreen;

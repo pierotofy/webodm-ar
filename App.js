@@ -1,6 +1,8 @@
 import React from 'react';
 import HomeScreen from './HomeScreen';
 import InstructionsScreen from './InstructionsScreen';
+import ScanQRScreen from './ScanQRScreen';
+import ViewModelScreen from './ViewModelScreen';
 
 import {
   StackNavigator,
@@ -23,7 +25,11 @@ class App extends React.Component {
 
     async loadFonts() {
         await Expo.Font.loadAsync({
-          'Material Design Icons': require("@expo/vector-icons/node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf")
+          // This works for iOS
+          'Material Design Icons': require("@expo/vector-icons/node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"),
+          
+          // Android has a different naming convention?
+          'MaterialCommunityIcons': require("@expo/vector-icons/node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf")
         });
         this.setState({ isReady: true });
     }
@@ -38,6 +44,12 @@ class App extends React.Component {
           },
           Instructions: {
             screen: InstructionsScreen
+          },
+          ScanQR: {
+            screen: ScanQRScreen
+          },
+          ViewModel: {
+            screen: ViewModelScreen
           }
         });
 
