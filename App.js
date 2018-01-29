@@ -26,10 +26,10 @@ class App extends React.Component {
     async loadFonts() {
         await Expo.Font.loadAsync({
           // This works for iOS
-          'Material Design Icons': require("@expo/vector-icons/node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"),
+          'Material Design Icons': require("@expo/vector-icons/fonts/MaterialCommunityIcons.ttf"),
           
           // Android has a different naming convention?
-          'MaterialCommunityIcons': require("@expo/vector-icons/node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf")
+          'MaterialCommunityIcons': require("@expo/vector-icons/fonts/MaterialCommunityIcons.ttf")
         });
         this.setState({ isReady: true });
     }

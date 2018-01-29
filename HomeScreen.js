@@ -31,6 +31,11 @@ class HomeScreen extends React.Component {
     };
   }
 
+  // TODO REMOVE
+  componentDidMount(){
+    this.props.navigation.navigate('ViewModel', {taskUrl: "http://192.168.2.253:8000/public/task/9d720d6e-c50c-4f06-9c2f-bdbc79a43a9a/map/"});
+  }
+
   render() {
     return (
       <View style={{flex: 1, backgroundColor: "white"}}>

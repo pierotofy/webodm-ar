@@ -21,11 +21,13 @@
   "dependencies": {
     "@expo/vector-icons": "^6.2.2",
     "expo": "^25.0.0",
-    "expo-three": "^2.0.3",
+    "expo-graphics": "^0.0.2",
+    "expo-three": "^2.2.2-alpha",
     "react": "16.2.0",
     "react-native": "^0.52.1",
     "react-native-elements": "^0.19.0",
     "react-navigation": "^1.0.0-beta.27",
-    "three": "^0.89.0"
+    "three": "^0.89.0",
+    "url-parse": "^1.2.0"
   }
 }

@@ -3,6 +3,19 @@
     "name": "WebODM AR",
     "slug": "webodm-ar",
     "sdkVersion": "25.0.0",
-    "privacy": "unlisted"
+    "privacy": "unlisted",
+    "icon": "./assets/icons/app-icon.png",
+    "orientation": "portrait",
+    "loading": {
+      "icon": "./assets/icons/app-icon.png",
+      "hideExponentText": false
+    },
+    "packagerOpts": {
+	  "assetExts": [
+	    "png",
+	    "obj",
+	    "mtl"
+	  ]
+	}
   }
 }
