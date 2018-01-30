@@ -3,6 +3,7 @@ import ExpoGraphics from 'expo-graphics';
 import ExpoTHREE, { THREE } from 'expo-three';
 import { PanResponder, PixelRatio, View } from 'react-native';
 import URL from 'url-parse';
+import loadAsync from './libs/loadAsync';
 
 class ViewModelScreen extends React.Component {
   static navigationOptions = {
@@ -71,8 +72,16 @@ class ViewModelScreen extends React.Component {
     //   'odm_textured_model_geo.obj': this.createApiUrl('/assets/odm_texturing/odm_textured_model_geo.obj'),
     // };
     const resources = {
-      'odm_textured_model.mtl': require("./assets/test/odm_textured_model.mtl"),
+    // 'B-AO_iOS_HERO_Bruce_Wayne_Batman_Arkham_Origins_Body_D.png': require('./assets/test/batman/B-AO_iOS_HERO_Bruce_Wayne_Batman_Arkham_Origins_Body_D.png'),
+    // 'B-AO_iOS_HERO_Bruce_Wayne_Batman_Arkham_Origins_Body_N.png': require('./assets/test/batman/B-AO_iOS_HERO_Bruce_Wayne_Batman_Arkham_Origins_Body_N.png'),
+    // 'B-AO_iOS_HERO_Bruce_Wayne_Batman_Arkham_Origins_Body_S.png': require('./assets/test/batman/B-AO_iOS_HERO_Bruce_Wayne_Batman_Arkham_Origins_Body_S.png'),
+    // 'B-AO_iOS_HERO_Bruce_Wayne_Batman_Arkham_Origins_Body_SP.png': require('./assets/test/batman/B-AO_iOS_HERO_Bruce_Wayne_Batman_Arkham_Origins_Body_SP.png'),
+    // 'B-AO_iOS_HERO_Bruce_Wayne_Batman_Arkham_Origins_DM_ENV.png': require('./assets/test/batman/B-AO_iOS_HERO_Bruce_Wayne_Batman_Arkham_Origins_DM_ENV.png'),
+    // 'B-AO_iOS_HERO_Bruce_Wayne_Batman_Arkham_Origins.mtl': require('./assets/test/batman/B-AO_iOS_HERO_Bruce_Wayne_Batman_Arkham_Origins.mtl'),
+    // 'B-AO_iOS_HERO_Bruce_Wayne_Batman_Arkham_Origins.obj': require('./assets/test/batman/B-AO_iOS_HERO_Bruce_Wayne_Batman_Arkham_Origins.obj'),
+
       'odm_textured_model_geo.obj': require("./assets/test/odm_textured_model_geo.obj"),
+      'odm_textured_model.mtl': require("./assets/test/odm_textured_model.mtl"),
     
       'odm_textured_model_material0000_map_Kd.png': require("./assets/test/odm_textured_model_material0000_map_Kd.png"),
       'odm_textured_model_material0001_map_Kd.png': require("./assets/test/odm_textured_model_material0001_map_Kd.png"),
@@ -98,12 +107,13 @@ class ViewModelScreen extends React.Component {
     //   }
     // });
 
-    // TODO: this is broken, who knows when it will
-    // get fixed.
-    const mesh = await ExpoTHREE.loadAsync(
+    // TODO: this REALLY slow
+    const mesh = await loadAsync(
       [
-        resources['odm_textured_model_geo.obj'],
         resources['odm_textured_model.mtl'],
+        resources['odm_textured_model_geo.obj'],
+        // resources['B-AO_iOS_HERO_Bruce_Wayne_Batman_Arkham_Origins.obj'],
+        // resources['B-AO_iOS_HERO_Bruce_Wayne_Batman_Arkham_Origins.mtl'],
       ],
       () => {},
       name => resources[name]
@@ -122,13 +132,22 @@ class ViewModelScreen extends React.Component {
     //   mesh.translateZ(-center.z);
     // } 
 
-
     mesh.position.set(0, 0, 400);
     mesh.rotateX(THREE.Math.degToRad(180));
+    
+    // mesh.position.set(0, 0, 5);
+    // mesh.rotateY(THREE.Math.degToRad(180));
+    
     this.scene.add(mesh);
 
     // await ExpoTHREE.loadAsync(resources['odm_textured_model_geo.obj']);
-    // await ExpoTHREE.loadAsync(require('./assets/test/odm_textured_model_geo.obj'));
+    // await ExpoTHREE.loadAsync(
+    //   [
+    //     require('./assets/test/odm_textured_model_geo.obj'),
+    //     require('./assets/test/odm_textured_model.mtl')
+    //   ]);
+
+    
     // let r = await ExpoTHREE.loadAsync("http://192.168.2.253:8000/api/projects/4/tasks/9d720d6e-c50c-4f06-9c2f-bdbc79a43a9a/assets/odm_texturing/odm_textured_model_material0006_map_Kd.png");
     // console.log(r.image);
 
@@ -262,12 +281,17 @@ class ViewModelScreen extends React.Component {
   };
 
   setupLights = () => {
-    this.light = new THREE.DirectionalLight(0x002288);
-    this.light.position.set(100, 100, 100);
-    this.scene.add(this.light);
+    // lights
+    const directionalLightA = new THREE.DirectionalLight(0xffffff);
+    directionalLightA.position.set(1, 1, 1);
+    this.scene.add(directionalLightA);
 
-    const light = new THREE.AmbientLight(0x222222);
-    this.scene.add(light);
+    const directionalLightB = new THREE.DirectionalLight(0xffffff);
+    directionalLightB.position.set(-1, -1, -1);
+    this.scene.add(directionalLightB);
+
+    const ambientLight = new THREE.AmbientLight(0x222222);
+    this.scene.add(ambientLight);
   };
 
   onResize = ({ width, height }) => {
@@ -284,7 +308,7 @@ class ViewModelScreen extends React.Component {
   onRender = () => {
     const lightEstimation = ExpoTHREE.getARLightEstimation(this.arSession);
     if (lightEstimation) {
-      this.light.intensity = 1 / 2000 * lightEstimation.ambientIntensity;
+      // this.directionalLightA.intensity = 1 / 2000 * lightEstimation.ambientIntensity;
       // this.light.ambientIntensity = lightEstimation.ambientColorTemperature;
     }
 
